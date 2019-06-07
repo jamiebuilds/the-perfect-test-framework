@@ -1,0 +1,3 @@
+.prettierrc
+.*ignore
+package-lock.json

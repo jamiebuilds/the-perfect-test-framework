@@ -1,0 +1,32 @@
+{
+	"private": true,
+	"name": "the-perfect-test-framework",
+	"version": "1.0.0",
+	"description": "The Perfect Test Framework",
+	"main": "index.js",
+	"scripts": {
+		"format": "prettier --write '**'"
+	},
+	"keywords": [],
+	"author": "Jamie Kyle <me@thejameskyle.com>",
+	"license": "MIT",
+	"devDependencies": {
+		"typescript": "^3.5.1"
+	},
+	"dependencies": {
+		"husky": "^2.4.0",
+		"lint-staged": "^8.2.0",
+		"prettier": "^1.18.2"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"*": [
+			"prettier --write",
+			"git add"
+		]
+	}
+}
