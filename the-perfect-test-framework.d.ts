@@ -507,17 +507,23 @@ export interface TestContext {
 	 *
 	 * ```ts
 	 * test("test timeouts (bad)", async t => {
-	 * 	 t.extendTimeout(200) // Add time for the entire test to complete (bad)
-	 *   await sleep(99)
-	 *   await sleep(99)
+	 *   // Add time for the entire test to complete (bad)
+	 *   await t.timeout(200, async () => {
+	 *     await sleep(99)
+	 *     await sleep(99)
+	 *   })
 	 *   t.pass()
 	 * })
 	 *
 	 * test("test timeouts (good)", async t => {
-	 *   t.extendTimeout(100) // Add some time one part of the test (good)
-	 *   await sleep(99)
-	 *   t.extendTimeout(100) // Add more time for other parts (good)
-	 *   await sleep(99)
+	 *   // Add some time one part of the test (good)
+	 *   await t.timeout(100, async () => {
+	 *     await sleep(99)
+	 *   })
+	 *   // Add more time for other parts (good)
+	 *   await t.timeout(100, async () => {
+	 *     await sleep(99)
+	 *   })
 	 *   t.pass()
 	 * })
 	 * ```
@@ -526,7 +532,7 @@ export interface TestContext {
 	 *
 	 * @param ms - The amount of milliseconds to extend the timeout from the current point in time by.
 	 */
-	extendTimeout(ms: number): void
+	timeout(ms: number, fn: () => any | Promise<any>): void
 }
 
 /**
@@ -713,7 +719,7 @@ type AnyFunction = StrictFunction<any, any[], any>
 type NoopFunction = StrictFunction<any, any[], void>
 // prettier-ignore
 /** @private */
-type FunctionThisType<T extends AnyFunction> = T extends StrictFunction<infer R, any, any> ? R : never
+type FunctionThisType<T extends AnyFunction> = T extends StrictFunction<infer R, any[], any> ? R : never
 // prettier-ignore
 /** @private */
 type PickBy<Source, Type> = { [Key in keyof Source]: Source[Key] extends Type ? Key : never }
