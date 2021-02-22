@@ -341,7 +341,7 @@ export interface TestContext {
 	 * async function createDb(t) {
 	 *   let db = new DatabaseConnection()
 	 *   await db.connect()
-	 *   t.after(async () => {
+	 *   t.teardown(async () => {
 	 *     await db.disconnect()
 	 *   })
 	 *   return db
@@ -355,7 +355,7 @@ export interface TestContext {
 	 *
 	 * @param fn - The function to call after the test passes or fails.
 	 */
-	after(fn: () => any): void
+	teardown(fn: () => any): void
 
 	/**
 	 * Create an abstract "lock" by calling `t.lock(name)`.
