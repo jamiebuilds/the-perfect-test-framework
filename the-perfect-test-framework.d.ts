@@ -380,7 +380,7 @@ export interface TestContext {
 	 *   let lock = await t.lock("db")
 	 *   let db = new DatabaseConnection()
 	 *   await db.connect()
-	 *   t.after(async () => {
+	 *   t.teardown(async () => {
 	 *     await db.disconnect()
 	 *     lock.release() // (not necessary)
 	 *   })
@@ -641,7 +641,8 @@ export interface TestClock {
 export interface TestLock {
 	/**
 	 * Release the locked object so other tests attempting to lock it can do so.
-	 * This will happen automatically at the end of the test.
+	 * This method is idempotent and if not called will automatically be released
+	 * at the end of the test the lock was created in.
 	 *
 	 * ```ts
 	 * test("t.lock()", async t => {
